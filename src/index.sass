@@ -1,0 +1,52 @@
+@import "~normalize-scss/sass/normalize"
+@import "./variables"
+
+@include normalize()
+
+
+*
+  box-sizing: border-box
+
+
+body
+  min-width: $min-width
+  min-height: $min-height
+  overflow: auto
+
+
+.app
+  position: absolute
+  display: flex
+  flex-direction: row
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  padding: $padding-vertical $padding-horizontal
+  overflow: hidden
+
+  > *:not(:last-child)
+    margin-right: $padding-horizontal
+
+
+.sidebar
+  width: $sidebar-width
+  border: 1px solid $sidebar-border-color
+  border-radius: $sidebar-border-radius
+
+
+.sidebar-header
+  color: $sidebar-header-text-color
+  background-color: $sidebar-header-bg-color
+  height: $sidebar-header-height
+  line-height: $sidebar-header-height
+  font-weight: bold
+  padding: 0 $padding-horizontal
+
+
+.map
+  border: 1px solid $map-border-color
+  border-radius: $map-border-radius
+  display: flex
+  flex: 1
+  overflow: hidden

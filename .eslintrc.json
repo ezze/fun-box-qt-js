@@ -1,0 +1,7 @@
+{
+  "extends": "ezze-react",
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

@@ -1,9 +1,14 @@
 {
   "name": "fun-box-qt",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fun-Box qualification test",
   "main": "index.js",
   "scripts": {
+    "dist": "rimraf dist && webpack --mode=production",
+    "dist:dev": "rimraf dist && webpack --mode=development",
+    "wds": "webpack-dev-server --mode=production --progress",
+    "wds:dev": "webpack-dev-server --mode=development --progress",
+    "lint": "eslint src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -15,5 +20,39 @@
   "bugs": {
     "url": "https://github.com/ezze/fun-box-qt-js/issues"
   },
-  "homepage": "https://github.com/ezze/fun-box-qt-js#readme"
+  "homepage": "https://github.com/ezze/fun-box-qt-js#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.0.0",
+    "bluebird": "^3.5.2",
+    "normalize-scss": "^7.0.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "autoprefixer": "^9.1.5",
+    "babel-loader": "^8.0.2",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.6.0",
+    "eslint-config-ezze-react": "^0.5.0",
+    "eslint-plugin-react": "^7.11.1",
+    "extract-text-webpack-plugin": "4.0.0-beta.0",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-template": "^6.2.0",
+    "node-sass": "^4.9.3",
+    "postcss-loader": "^3.0.0",
+    "resolve-url-loader": "^3.0.0",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.8",
+    "yargs": "^12.0.2"
+  }
 }

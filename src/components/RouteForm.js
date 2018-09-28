@@ -8,6 +8,12 @@ class RouteForm extends Component {
         this.nameRef = React.createRef();
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.pointsCount > prevProps.pointsCount) {
+            this.nameRef.current.value = '';
+        }
+    }
+
     render() {
         const { error } = this.props;
         const errorBlock = error ? (
@@ -26,7 +32,6 @@ class RouteForm extends Component {
         event.preventDefault();
         const nameInput = this.nameRef.current;
         const name = nameInput.value;
-        nameInput.value = '';
         const { addPoint, latitude, longitude } = this.props;
         addPoint(name, latitude, longitude);
     }
@@ -35,6 +40,7 @@ class RouteForm extends Component {
 RouteForm.propTypes = {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
+    pointsCount: PropTypes.number.isRequired,
     error: PropTypes.string,
     addPoint: PropTypes.func.isRequired
 };

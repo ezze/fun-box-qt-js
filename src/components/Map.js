@@ -9,39 +9,83 @@ class Map extends Component {
         super(props);
         this.mapContainer = React.createRef();
         this.map = null;
+        this.routePolyline = null;
     }
 
     componentDidMount() {
-        ymaps.ready(() => {
-            const { latitude, longitude, zoom } = this.props;
+        ymaps.ready(() => this.createMap());
+    }
 
-            const map = this.map = new ymaps.Map(this.mapContainer.current, {
-                center: [latitude, longitude],
-                zoom,
-                controls: []
-            });
+    componentDidUpdate(prevProps) {
+        const { route } = this.props;
+        if (route.length !== prevProps.route.length || JSON.stringify(route) !== JSON.stringify(prevProps.route)) {
+            this.updateRoute();
+        }
+    }
 
-            const { controls } = map;
-            controls.add('typeSelector', {
-                position: {
-                    top: mapControlMargin,
-                    right: mapControlMargin
-                }
-            });
-            controls.add('zoomControl', {
-                position: {
-                    top: mapControlMargin,
-                    left: mapControlMargin
-                }
-            });
+    componentWillUnmount() {
+        this.destroyMap();
+    }
 
-            map.events.add('actionend', () => {
-                const center = map.getCenter();
-                const zoom = map.getZoom();
-                this.props.setCenter(center[0], center[1]);
-                this.props.setZoom(zoom);
-            });
+    createMap() {
+        const { latitude, longitude, zoom } = this.props;
+
+        const map = this.map = new ymaps.Map(this.mapContainer.current, {
+            center: [latitude, longitude],
+            zoom,
+            controls: []
         });
+
+        const { controls } = map;
+        controls.add('typeSelector', {
+            position: {
+                top: mapControlMargin,
+                right: mapControlMargin
+            }
+        });
+        controls.add('zoomControl', {
+            position: {
+                top: mapControlMargin,
+                left: mapControlMargin
+            }
+        });
+
+        map.events.add('actionend', () => {
+            const center = map.getCenter();
+            const zoom = map.getZoom();
+            this.props.setCenter(center[0], center[1]);
+            this.props.setZoom(zoom);
+        });
+
+        this.createRoute();
+    }
+
+    destroyMap() {
+        this.destroyRoute();
+        this.map.destroy();
+        this.map = null;
+    }
+
+    createRoute() {
+        const { route } = this.props;
+        this.routePolyline = new ymaps.Polyline(route.map(point => {
+            return [point.latitude, point.longitude];
+        }), {}, {
+            strokeColor: '#aa0000',
+            strokeWidth: 3,
+        });
+        this.map.geoObjects.add(this.routePolyline);
+    }
+
+    updateRoute() {
+        this.routePolyline.geometry.setCoordinates(this.props.route.map(point => {
+            return [point.latitude, point.longitude];
+        }));
+    }
+
+    destroyRoute() {
+        this.map.geoObjects.remove(this.routePolyline);
+        this.routePolyline = null;
     }
 
     render() {

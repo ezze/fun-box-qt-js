@@ -19,8 +19,16 @@ const reducer = (state = defaultValue, action) => {
                 return state.set('error', 'Имя точки маршрута не может быть пустым.');
             }
 
-            const route = state.get('points');
-            const lastPoint = route.get(-1, null);
+            const points = state.get('points');
+            let maxPointId = state.get('maxPointId', null);
+            if (maxPointId === null) {
+                maxPointId = points.reduce((maxId, point) => {
+                    const id = point.get('id');
+                    return id > maxId ? id : maxId;
+                }, 0);
+            }
+
+            const lastPoint = points.get(-1, null);
             if (
                 lastPoint !== null &&
                 lastPoint.get('latitude') === latitude &&
@@ -32,8 +40,10 @@ const reducer = (state = defaultValue, action) => {
                 );
             }
 
+            const newPointId = maxPointId + 1;
             return state.merge({
-                points: route.push(Immutable.fromJS({ name: name.trim(), latitude, longitude })),
+                maxPointId: newPointId,
+                points: points.push(Immutable.fromJS({ id: newPointId, name: name.trim(), latitude, longitude })),
                 error: ''
             });
         }

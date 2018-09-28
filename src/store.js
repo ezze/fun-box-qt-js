@@ -4,6 +4,7 @@ import { persistStore, autoRehydrate } from 'redux-persist-immutable';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
+import { routeTransform } from './stateTransform';
 import reducer from './reducer';
 
 let store = null;
@@ -28,10 +29,7 @@ export function getStore() {
         );
 
         return new Promise(resolve => {
-            storePersistor = persistStore(store, { keyPrefix: 'app ' }, () => {
-                if (NODE_ENV === 'development') {
-                    console.log(store.getState().toJS());
-                }
+            storePersistor = persistStore(store, { keyPrefix: 'app ', transforms: [routeTransform] }, () => {
                 resolve(store);
             });
         });

@@ -1,9 +1,16 @@
 import React from 'react';
 
+import RouteForm from './containers/RouteForm';
+import RouteList from './containers/RouteList';
+
 const Sidebar = () => {
     return (
         <div className="sidebar">
-            <header className="sidebar-header">Маршрут</header>
+            <div className="sidebar-header">Маршрут</div>
+            <div className="sidebar-content">
+                <RouteForm />
+                <RouteList />
+            </div>
         </div>
     );
 };

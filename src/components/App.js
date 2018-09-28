@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Sidebar from './Sidebar';
-import Map from './Map';
+import Map from './containers/Map';
 
 const App = () => (
     <div className="app">

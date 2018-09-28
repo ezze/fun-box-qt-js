@@ -8,13 +8,18 @@ import {
 } from '../../selector/map';
 
 import {
+    getRouteError
+} from '../../selector/route';
+
+import {
     addRoutePoint
 } from '../../actions/route';
 
 const mapStateToProps = state => {
     return {
         latitude: getMapLatitude(state),
-        longitude: getMapLongitude(state)
+        longitude: getMapLongitude(state),
+        error: getRouteError(state)
     };
 };
 

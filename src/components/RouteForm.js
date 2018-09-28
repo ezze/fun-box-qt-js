@@ -9,9 +9,15 @@ class RouteForm extends Component {
     }
 
     render() {
+        const { error } = this.props;
+        const errorBlock = error ? (
+            <div className="route-form-error">{error}</div>
+        ) : '';
+
         return (
             <form className="route-form" onSubmit={this.onSubmit}>
                 <input ref={this.nameRef} className="route-form-input" type="text" />
+                {errorBlock}
             </form>
         );
     }
@@ -29,6 +35,7 @@ class RouteForm extends Component {
 RouteForm.propTypes = {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
+    error: PropTypes.string,
     addPoint: PropTypes.func.isRequired
 };
 

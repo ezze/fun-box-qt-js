@@ -5,10 +5,10 @@ import RouteListItem from './RouteListItem';
 
 class RouteList extends Component {
     render() {
-        const { route, removePoint } = this.props;
+        const { points, removePoint } = this.props;
         return (
             <ul className="route-list">
-                {route.map((point, i) => (
+                {points.map((point, i) => (
                     <RouteListItem key={i} {...point} index={i} removePoint={removePoint} />
                 ))}
             </ul>
@@ -17,7 +17,7 @@ class RouteList extends Component {
 }
 
 RouteList.propTypes = {
-    route: PropTypes.array.isRequired,
+    points: PropTypes.array.isRequired,
     removePoint: PropTypes.func.isRequired
 };
 

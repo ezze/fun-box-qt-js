@@ -17,8 +17,8 @@ class Map extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { route } = this.props;
-        if (route.length !== prevProps.route.length || JSON.stringify(route) !== JSON.stringify(prevProps.route)) {
+        const { points } = this.props;
+        if (points.length !== prevProps.points.length || JSON.stringify(points) !== JSON.stringify(prevProps.points)) {
             this.updateRoute();
         }
     }
@@ -67,8 +67,8 @@ class Map extends Component {
     }
 
     createRoute() {
-        const { route } = this.props;
-        this.routePolyline = new ymaps.Polyline(route.map(point => {
+        const { points } = this.props;
+        this.routePolyline = new ymaps.Polyline(points.map(point => {
             return [point.latitude, point.longitude];
         }), {}, {
             strokeColor: '#aa0000',
@@ -78,7 +78,7 @@ class Map extends Component {
     }
 
     updateRoute() {
-        this.routePolyline.geometry.setCoordinates(this.props.route.map(point => {
+        this.routePolyline.geometry.setCoordinates(this.props.points.map(point => {
             return [point.latitude, point.longitude];
         }));
     }
@@ -101,7 +101,7 @@ Map.propTypes = {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
     zoom: PropTypes.number.isRequired,
-    route: PropTypes.arrayOf(PropTypes.shape({
+    points: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
         latitude: PropTypes.number.isRequired,
         longitude: PropTypes.number.isRequired

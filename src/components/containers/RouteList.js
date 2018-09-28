@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import RouteList from '../RouteList';
 
 import {
-    getPlainRoute
+    getRoutePoints
 } from '../../selector/route';
 
 import {
@@ -12,7 +12,7 @@ import {
 
 const mapStateToProps = state => {
     return {
-        route: getPlainRoute(state)
+        points: getRoutePoints(state)
     };
 };
 

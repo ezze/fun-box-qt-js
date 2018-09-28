@@ -9,7 +9,7 @@ import {
 } from '../../selector/map';
 
 import {
-    getPlainRoute
+    getRoutePoints
 } from '../../selector/route';
 
 import {
@@ -22,7 +22,7 @@ const mapStateToProps = state => {
         latitude: getMapLatitude(state),
         longitude: getMapLongitude(state),
         zoom: getMapZoom(state),
-        route: getPlainRoute(state)
+        points: getRoutePoints(state)
     };
 };
 

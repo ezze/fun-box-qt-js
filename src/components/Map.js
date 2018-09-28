@@ -10,6 +10,7 @@ class Map extends Component {
         this.mapContainer = React.createRef();
         this.map = null;
         this.routePolyline = null;
+        this.placemarks = [];
     }
 
     componentDidMount() {
@@ -19,7 +20,7 @@ class Map extends Component {
     componentDidUpdate(prevProps) {
         const { points } = this.props;
         if (points.length !== prevProps.points.length || JSON.stringify(points) !== JSON.stringify(prevProps.points)) {
-            this.updateRoute();
+            this.updateRoute(prevProps.points);
         }
     }
 
@@ -68,24 +69,73 @@ class Map extends Component {
 
     createRoute() {
         const { points } = this.props;
-        this.routePolyline = new ymaps.Polyline(points.map(point => {
-            return [point.latitude, point.longitude];
-        }), {}, {
+
+        const routePolylineGeometry = [];
+        for (let i = 0; i < points.length; i++) {
+            const point = points[i];
+            const { latitude, longitude } = point;
+            routePolylineGeometry.push([latitude, longitude]);
+            this.createPlacemark(point);
+        }
+
+        this.routePolyline = new ymaps.Polyline(routePolylineGeometry, {}, {
             strokeColor: '#aa0000',
             strokeWidth: 3,
         });
         this.map.geoObjects.add(this.routePolyline);
     }
 
-    updateRoute() {
-        this.routePolyline.geometry.setCoordinates(this.props.points.map(point => {
-            return [point.latitude, point.longitude];
-        }));
+    updateRoute(prevPoints) {
+        const { points } = this.props;
+
+        const routePolylineGeometry = [];
+
+        for (let i = 0; i < prevPoints.length; i++) {
+            const prevPoint = prevPoints[i];
+            const { id } = prevPoint;
+            const point = points.find(point => point.id === id);
+            if (!point) {
+                this.destroyPlacemark(id);
+            }
+        }
+
+        for (let i = 0; i < points.length; i++) {
+            const point = points[i];
+            const { id, latitude, longitude } = point;
+            routePolylineGeometry.push([latitude, longitude]);
+            const prevPoint = prevPoints.find(point => point.id === id);
+            if (!prevPoint) {
+                this.createPlacemark(point);
+            }
+        }
+
+        this.routePolyline.geometry.setCoordinates(routePolylineGeometry);
     }
 
     destroyRoute() {
         this.map.geoObjects.remove(this.routePolyline);
         this.routePolyline = null;
+    }
+
+    createPlacemark(point) {
+        const { id, name, latitude, longitude } = point;
+        const placemark = new ymaps.Placemark([latitude, longitude], {
+            balloonContent: name
+        });
+        this.placemarks.push({
+            id,
+            geoObject: placemark
+        });
+        this.map.geoObjects.add(placemark);
+    }
+
+    destroyPlacemark(id) {
+        const placemark = this.placemarks.find(placemark => placemark.id === id);
+        if (!placemark) {
+            return;
+        }
+        const { geoObject } = placemark;
+        this.map.geoObjects.remove(geoObject);
     }
 
     render() {
@@ -102,6 +152,7 @@ Map.propTypes = {
     longitude: PropTypes.number.isRequired,
     zoom: PropTypes.number.isRequired,
     points: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
         latitude: PropTypes.number.isRequired,
         longitude: PropTypes.number.isRequired

@@ -4,10 +4,11 @@ import { Provider } from 'react-redux';
 
 import './index.sass';
 
-import store from './store';
+import { getStore } from './store';
 import App from './components/App';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async() => {
+    const store = await getStore();
     render(
         <Provider store={store}>
             <App />

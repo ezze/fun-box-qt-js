@@ -1,27 +1,48 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import { persistStore, autoRehydrate } from 'redux-persist-immutable';
+
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
 import reducer from './reducer';
 
-const middlewares = [thunkMiddleware];
+let store = null;
+let storePersistor = null;
 
-if (NODE_ENV === 'development') {
-    const loggerMiddleware = createLogger({
-        stateTransformer: state => state.toJS(),
-        collapsed: (getState, action, logEntry) => !logEntry.error
-    });
-    middlewares.push(loggerMiddleware);
+export function getStore() {
+    if (store === null) {
+        const middlewares = [thunkMiddleware];
+
+        if (NODE_ENV === 'development') {
+            const loggerMiddleware = createLogger({
+                stateTransformer: state => state.toJS(),
+                collapsed: (getState, action, logEntry) => !logEntry.error
+            });
+            middlewares.push(loggerMiddleware);
+        }
+
+        store = createStore(
+            reducer,
+            undefined,
+            compose(applyMiddleware.apply(undefined, middlewares), autoRehydrate())
+        );
+
+        return new Promise(resolve => {
+            storePersistor = persistStore(store, { keyPrefix: 'app ' }, () => {
+                if (NODE_ENV === 'development') {
+                    console.log(store.getState().toJS());
+                }
+                resolve(store);
+            });
+        });
+    }
+
+    return Promise.resolve(store);
 }
 
-const store = createStore(
-    reducer,
-    undefined,
-    compose(applyMiddleware.apply(undefined, middlewares))
-);
-
-if (NODE_ENV === 'development') {
-    console.log(store.getState().toJS());
+export async function getStorePersistor() {
+    if (storePersistor === null) {
+        await getStore();
+    }
+    return Promise.resolve(storePersistor);
 }
-
-export default store;

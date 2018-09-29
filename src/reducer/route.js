@@ -63,8 +63,12 @@ const reducer = (state = defaultValue, action) => {
         }
 
         case REMOVE_ROUTE_POINT: {
-            const { index } = action;
+            const { id } = action;
             const points = state.get('points');
+            const index = points.findIndex(point => point.get('id') === id);
+            if (index === -1) {
+                return state;
+            }
             return state.merge({
                 points: points.delete(index),
                 error: ''

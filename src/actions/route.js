@@ -22,9 +22,9 @@ export const moveRoutePoint = (id, latitude, longitude) => {
     };
 };
 
-export const removeRoutePoint = index => {
+export const removeRoutePoint = id => {
     return {
         type: REMOVE_ROUTE_POINT,
-        index
+        id
     };
 };

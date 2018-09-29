@@ -18,14 +18,14 @@ class RouteListItem extends Component {
     }
 
     onRemoveClick() {
-        const { removePoint, index } = this.props;
-        removePoint(index);
+        const { removePoint, id } = this.props;
+        removePoint(id);
     }
 }
 
 RouteListItem.propTypes = {
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
     removePoint: PropTypes.func.isRequired
 };
 

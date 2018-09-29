@@ -18,7 +18,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        removePoint: index => dispatch(removeRoutePoint(index))
+        removePoint: id => dispatch(removeRoutePoint(id))
     };
 };
 

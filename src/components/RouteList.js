@@ -9,7 +9,7 @@ class RouteList extends Component {
         return (
             <ul className="route-list">
                 {points.map((point, i) => (
-                    <RouteListItem key={i} {...point} index={i} removePoint={removePoint} />
+                    <RouteListItem key={i} {...point} removePoint={removePoint} />
                 ))}
             </ul>
         );

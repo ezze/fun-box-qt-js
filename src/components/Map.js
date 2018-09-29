@@ -121,6 +121,14 @@ class Map extends Component {
         const { id, name, latitude, longitude } = point;
         const placemark = new ymaps.Placemark([latitude, longitude], {
             balloonContent: name
+        }, {
+            draggable: true
+        });
+        placemark.events.add('drag', () => {
+            const coordinates = placemark.geometry.getCoordinates();
+            const latitude = coordinates[0];
+            const longitude = coordinates[1];
+            this.props.movePoint(id, latitude, longitude);
         });
         this.placemarks.push({
             id,
@@ -158,7 +166,8 @@ Map.propTypes = {
         longitude: PropTypes.number.isRequired
     })).isRequired,
     setCenter: PropTypes.func.isRequired,
-    setZoom: PropTypes.func.isRequired
+    setZoom: PropTypes.func.isRequired,
+    movePoint: PropTypes.func.isRequired
 };
 
 Map.defaultProps = {

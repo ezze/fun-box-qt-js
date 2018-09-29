@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 
 import {
     ADD_ROUTE_POINT,
+    MOVE_ROUTE_POINT,
     REMOVE_ROUTE_POINT
 } from '../constants';
 
@@ -46,6 +47,19 @@ const reducer = (state = defaultValue, action) => {
                 points: points.push(Immutable.fromJS({ id: newPointId, name: name.trim(), latitude, longitude })),
                 error: ''
             });
+        }
+
+        case MOVE_ROUTE_POINT: {
+            const { id, latitude, longitude } = action;
+            const points = state.get('points');
+            const index = points.findIndex(point => point.get('id') === id);
+            if (index === -1) {
+                return state;
+            }
+            return state.set('points', points.mergeIn([index], {
+                latitude,
+                longitude
+            }));
         }
 
         case REMOVE_ROUTE_POINT: {

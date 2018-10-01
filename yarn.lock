@@ -3802,6 +3802,13 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
   integrity sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
 
+latlon-formatter@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/latlon-formatter/-/latlon-formatter-0.3.0.tgz#66825180017291d1e94326cb7bfc1172f9d8cede"
+  integrity sha512-a9qIIuHtHB+ejnEtXO1totQtajE1AFtsCPyfn8wrDLfEgEUZxIM/5uMqIz+zzLCRvOgmNknf8nXNAj9pOSwHqQ==
+  dependencies:
+    object-assign "^4.1.1"
+
 lcid@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/lcid/-/lcid-1.0.0.tgz#308accafa0bc483a3867b4b6f2b9506251d1b835"

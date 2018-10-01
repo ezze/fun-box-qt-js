@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
+import { formatLatitude, formatLongitude } from 'latlon-formatter';
 
-class RouteListItem extends Component {
+class RouteListItem extends PureComponent {
     constructor(props) {
         super(props);
         this.onRemoveClick = this.onRemoveClick.bind(this);
     }
 
     render() {
-        const { index, id, name } = this.props;
+        const { index, id, name, latitude, longitude } = this.props;
         return (
             <Draggable draggableId={`draggable-route-list-item-${id}`} index={index}>
                 {(provided, snapshot) => {
@@ -26,10 +27,18 @@ class RouteListItem extends Component {
                             className={className}
                             style={provided.draggableProps.style}
                         >
-                            <span className="route-list-item-name">{name}</span>
-                            <span className="route-list-item-remove" onClick={this.onRemoveClick} title="Удалить">
-                                &times;
-                            </span>
+                            <div>
+                                <div className="route-list-item-name">{name}</div>
+                                <div className="route-list-item-coordinates">
+                                    {formatLatitude(latitude, { degrees: true })}&nbsp;
+                                    {formatLongitude(longitude, { degrees: true })}
+                                </div>
+                            </div>
+                            <div>
+                                <span className="route-list-item-remove" onClick={this.onRemoveClick} title="Удалить">
+                                    &times;
+                                </span>
+                            </div>
                         </li>
                     );
                 }}
@@ -47,6 +56,8 @@ RouteListItem.propTypes = {
     index: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
     removePoint: PropTypes.func.isRequired
 };
 

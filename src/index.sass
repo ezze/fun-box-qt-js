@@ -1,6 +1,7 @@
 @import "~normalize-scss/sass/normalize"
 @import "./variables"
 
+
 @include normalize()
 
 
@@ -65,7 +66,7 @@ input[type="text"]
   bottom: 0
   left: 0
   right: 0
-  padding: $padding-vertical $padding-vertical
+  padding: $sidebar-padding-vertical $sidebar-padding-vertical
   overflow: auto
 
   input
@@ -94,6 +95,13 @@ input[type="text"]
   display: flex
   flex-direction: row
   justify-content: space-between
+  height: $route-list-item-height
+  line-height: $route-list-item-height
+  padding: $route-list-item-padding-vertical $route-list-item-padding-horizontal
+  color: $route-list-item-text-color
+  background-color: $route-list-item-bg-color
+  border-radius: $route-list-item-border-radius
+  margin-bottom: $route-list-item-gap
 
 
 .route-list-item-remove

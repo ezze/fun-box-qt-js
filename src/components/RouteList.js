@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Droppable } from 'react-beautiful-dnd';
 
 import RouteListItem from './RouteListItem';
+
+import { DROPPABLE_ROUTE_LIST } from '../constants';
 
 class RouteList extends Component {
     render() {
         const { points, removePoint } = this.props;
         return (
-            <ul className="route-list">
-                {points.map((point, i) => (
-                    <RouteListItem key={i} {...point} removePoint={removePoint} />
-                ))}
-            </ul>
+            <Droppable droppableId={DROPPABLE_ROUTE_LIST} direction="vertical">
+                {(provided, snapshot) => (
+                    <ul ref={provided.innerRef} {...provided.droppableProps} className="route-list">
+                        {points.map((point, i) => (
+                            <RouteListItem key={i} index={i} {...point} removePoint={removePoint} />
+                        ))}
+                        {provided.placeholder}
+                    </ul>
+                )}
+            </Droppable>
         );
     }
 }

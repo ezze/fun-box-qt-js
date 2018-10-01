@@ -1,6 +1,7 @@
 import {
     ADD_ROUTE_POINT,
     MOVE_ROUTE_POINT,
+    REORDER_ROUTE_POINT,
     REMOVE_ROUTE_POINT
 } from '../constants';
 
@@ -19,6 +20,14 @@ export const moveRoutePoint = (id, latitude, longitude) => {
         id,
         latitude,
         longitude
+    };
+};
+
+export const reorderRoutePoint = (sourceIndex, destinationIndex) => {
+    return {
+        type: REORDER_ROUTE_POINT,
+        sourceIndex,
+        destinationIndex
     };
 };
 

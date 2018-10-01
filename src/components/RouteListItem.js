@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Draggable } from 'react-beautiful-dnd';
 
 class RouteListItem extends Component {
     constructor(props) {
@@ -8,12 +9,27 @@ class RouteListItem extends Component {
     }
 
     render() {
-        const { name } = this.props;
+        const { index, id, name } = this.props;
         return (
-            <li className="route-list-item">
-                <span className="route-list-item-name">{name}</span>
-                <span className="route-list-item-remove" onClick={this.onRemoveClick} title="Удалить">&times;</span>
-            </li>
+            <Draggable draggableId={`draggable-route-list-item-${id}`} index={index}>
+                {(provided, snapshot) => (
+                    <li
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="route-list-item"
+                        style={provided.draggableProps.style}
+                    >
+                        <span className="route-list-item-name">{name}</span>
+                        <span
+                            className="route-list-item-remove"
+                            onClick={this.onRemoveClick}
+                            title="Удалить">
+                            &times;
+                        </span>
+                    </li>
+                )}
+            </Draggable>
         );
     }
 
@@ -24,6 +40,7 @@ class RouteListItem extends Component {
 }
 
 RouteListItem.propTypes = {
+    index: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     removePoint: PropTypes.func.isRequired

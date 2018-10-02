@@ -1,6 +1,6 @@
 import { DROPPABLE_ROUTE_LIST } from './constants';
 
-import { reorderRoutePoint } from './actions/route';
+import { moveRoutePoint } from './actions/route';
 
 function createDragDropDispatcher(store) {
     return {
@@ -16,7 +16,7 @@ function createDragDropDispatcher(store) {
 
             switch (destination.droppableId) {
                 case DROPPABLE_ROUTE_LIST: {
-                    store.dispatch(reorderRoutePoint(source.index, destination.index));
+                    store.dispatch(moveRoutePoint(source.index, destination.index));
                     break;
                 }
             }

@@ -128,7 +128,7 @@ class Map extends Component {
             const coordinates = placemark.geometry.getCoordinates();
             const latitude = coordinates[0];
             const longitude = coordinates[1];
-            this.props.movePoint(id, latitude, longitude);
+            this.props.relocatePoint(id, latitude, longitude);
         });
         this.placemarks.push({
             id,
@@ -167,7 +167,7 @@ Map.propTypes = {
     })).isRequired,
     setCenter: PropTypes.func.isRequired,
     setZoom: PropTypes.func.isRequired,
-    movePoint: PropTypes.func.isRequired
+    relocatePoint: PropTypes.func.isRequired
 };
 
 Map.defaultProps = {

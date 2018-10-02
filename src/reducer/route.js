@@ -2,8 +2,8 @@ import Immutable from 'immutable';
 
 import {
     ADD_ROUTE_POINT,
+    RELOCATE_ROUTE_POINT,
     MOVE_ROUTE_POINT,
-    REORDER_ROUTE_POINT,
     REMOVE_ROUTE_POINT
 } from '../constants';
 
@@ -50,7 +50,7 @@ const reducer = (state = defaultValue, action) => {
             });
         }
 
-        case MOVE_ROUTE_POINT: {
+        case RELOCATE_ROUTE_POINT: {
             const { id, latitude, longitude } = action;
             const points = state.get('points');
             const index = points.findIndex(point => point.get('id') === id);
@@ -63,7 +63,7 @@ const reducer = (state = defaultValue, action) => {
             }));
         }
 
-        case REORDER_ROUTE_POINT: {
+        case MOVE_ROUTE_POINT: {
             const { sourceIndex, destinationIndex } = action;
             if (sourceIndex === destinationIndex) {
                 return state;

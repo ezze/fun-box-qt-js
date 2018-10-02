@@ -18,7 +18,7 @@ import {
 } from '../../actions/map';
 
 import {
-    moveRoutePoint
+    relocateRoutePoint
 } from '../../actions/route';
 
 const mapStateToProps = state => {
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
     return {
         setCenter: (latitude, longitude) => dispatch(setMapCenter(latitude, longitude)),
         setZoom: zoom => dispatch(setMapZoom(zoom)),
-        movePoint: (id, latitude, longitude) => dispatch(moveRoutePoint(id, latitude, longitude))
+        relocatePoint: (id, latitude, longitude) => dispatch(relocateRoutePoint(id, latitude, longitude))
     };
 };
 

@@ -4,13 +4,16 @@ import {
     SET_MAP_LATITUDE,
     SET_MAP_LONGITUDE,
     SET_MAP_CENTER,
-    SET_MAP_ZOOM
+    SET_MAP_ZOOM,
+    defaultMapLatitude,
+    defaultMapLongitude,
+    defaultMapZoom
 } from '../constants';
 
 const defaultValue = Immutable.fromJS({
-    latitude: 57.6261,
-    longitude: 39.8845,
-    zoom: 13
+    latitude: defaultMapLatitude,
+    longitude: defaultMapLongitude,
+    zoom: defaultMapZoom
 });
 
 const reducer = (state = defaultValue, action) => {

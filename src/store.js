@@ -5,7 +5,7 @@ import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
 import { routeTransform } from './stateTransform';
-import reducer from './reducer';
+import reducer from './reducers';
 
 let store = null;
 let storePersistor = null;

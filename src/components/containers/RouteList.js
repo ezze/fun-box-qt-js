@@ -4,7 +4,7 @@ import RouteList from '../RouteList';
 
 import {
     getRoutePoints
-} from '../../selector/route';
+} from '../../selectors/route';
 
 import {
     removeRoutePoint

@@ -15,6 +15,7 @@ install:
   - yarn
 before_script:
   - yarn lint
+  - yarn lint:test
   - yarn test
 script:
   - yarn dist

@@ -6,11 +6,11 @@ import {
     getMapLatitude,
     getMapLongitude,
     getMapZoom
-} from '../../selector/map';
+} from '../../selectors/map';
 
 import {
     getRoutePoints
-} from '../../selector/route';
+} from '../../selectors/route';
 
 import {
     setMapCenter,

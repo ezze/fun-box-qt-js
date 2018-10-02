@@ -10,4 +10,8 @@ export const REMOVE_ROUTE_POINT = 'REMOVE_ROUTE_POINT';
 
 export const DROPPABLE_ROUTE_LIST = 'DROPPABLE_ROUTE_LIST';
 
+export const defaultMapLatitude = 57.6261;
+export const defaultMapLongitude = 39.8845;
+export const defaultMapZoom = 13;
+
 export const mapControlMargin = 10;

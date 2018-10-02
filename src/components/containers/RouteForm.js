@@ -5,12 +5,12 @@ import RouteForm from '../RouteForm';
 import {
     getMapLatitude,
     getMapLongitude
-} from '../../selector/map';
+} from '../../selectors/map';
 
 import {
     getRoutePointsCount,
     getRouteError
-} from '../../selector/route';
+} from '../../selectors/route';
 
 import {
     addRoutePoint

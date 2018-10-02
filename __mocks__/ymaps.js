@@ -1,6 +1,19 @@
+import {
+    defaultMapLatitude,
+    defaultMapLongitude,
+    defaultMapZoom
+} from '../src/constants';
+
 const ymaps = {
     ready: jest.fn(cb => setTimeout(cb, 500)),
-    Map: jest.fn(() => {
+    Map: jest.fn((container, options) => {
+        options = options || {};
+
+        const {
+            center = [defaultMapLatitude, defaultMapLongitude],
+            zoom = defaultMapZoom
+        } = options;
+
         return {
             controls: {
                 add: jest.fn()
@@ -12,8 +25,8 @@ const ymaps = {
                 add: jest.fn(),
                 remove: jest.fn()
             },
-            getCenter: jest.fn(),
-            getZoom: jest.fn()
+            getCenter: jest.fn(() => center),
+            getZoom: jest.fn(() => zoom)
         };
     }),
     Polyline: jest.fn(() => {

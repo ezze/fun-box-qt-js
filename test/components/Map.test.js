@@ -41,9 +41,14 @@ describe('map component', () => {
         const { readyPromise } = mapComponent;
         readyPromise.then(() => {
             const { map } = mapComponent;
+            expect(map).toBeTruthy();
             expect(map.controls.add.mock.calls).toHaveLength(2);
             expect(map.events.add.mock.calls).toHaveLength(1);
             expect(map.geoObjects.add.mock.calls).toHaveLength(props.points.length + 1);
+            expect(map.getCenter()).toEqual([props.latitude, props.longitude]);
+            expect(map.getZoom()).toEqual(props.zoom);
+            expect(mapComponent.routePolyline).toBeTruthy();
+            expect(mapComponent.placemarks).toHaveLength(props.points.length);
             done();
         });
     });

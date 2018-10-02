@@ -11,7 +11,9 @@
     "wds:dev": "webpack-dev-server --mode=development --progress",
     "lint": "eslint src",
     "lint:test": "eslint test",
-    "test": "jest --config jest.config.json"
+    "test": "jest",
+    "test:coverage": "jest --config jest.config.json",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
@@ -52,6 +54,7 @@
     "babel-core": "^7.0.0-0",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.2",
+    "coveralls": "^3.0.2",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.0",
     "eslint-config-ezze-react": "^0.5.0",

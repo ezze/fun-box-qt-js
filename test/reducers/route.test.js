@@ -89,7 +89,7 @@ describe('route reducer', () => {
             latitude: points[1].latitude,
             longitude: points[1].longitude
         });
-        validatePoints(state, points.map((point, index) => Object.assign({ id: index + 1}, point)));
+        validatePoints(state, points.map((point, index) => Object.assign({ id: index + 1 }, point)));
         validateError(state, false);
         validateMaxPointId(state, 2);
     });

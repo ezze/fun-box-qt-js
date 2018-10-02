@@ -9,43 +9,81 @@ import {
 
 import reducer from '../../src/reducers/route';
 
+function prepareState(points = []) {
+    return fromJS({ points, error: '' });
+}
+
+function validatePoints(state, expectedPoints) {
+    expect(state.get('points')).toEqual(fromJS(expectedPoints));
+}
+
+function validateError(state, hasError = false) {
+    if (hasError) {
+        expect(state.get('error')).toBeTruthy();
+    }
+    else {
+        expect(state.get('error')).toBeFalsy();
+    }
+}
+
+function validateMaxPointId(state, maxPointId) {
+    expect(state.get('maxPointId')).toEqual(maxPointId);
+}
+
 const predefinedPoints = [
-    { id: 1, name: 'Ярославль', latitude: 57.6261, longitude: 39.8845 },
-    { id: 2, name: 'Тверь', latitude: 56.8587, longitude: 35.9176 },
-    { id: 3, name: 'Москва', latitude: 55.7558, longitude: 37.6173 },
-    { id: 4, name: 'Сочи', latitude: 43.6028, longitude: 39.7342 }
+    { id: 1, name: 'Yaroslavl', latitude: 57.6261, longitude: 39.8845 },
+    { id: 2, name: 'Tver', latitude: 56.8587, longitude: 35.9176 },
+    { id: 3, name: 'Moscow', latitude: 55.7558, longitude: 37.6173 },
+    { id: 4, name: 'Sochi', latitude: 43.6028, longitude: 39.7342 }
 ];
 
 describe('route reducer', () => {
-    let points;
-
-    beforeEach(() => {
-        points = fromJS(predefinedPoints);
-    });
-
     it('return initial state', () => {
-        expect(reducer(undefined, {})).toEqual(fromJS({
-            points: [],
-            error: ''
-        }));
+        expect(reducer(undefined, {})).toEqual(prepareState());
     });
 
     it('handle ADD_ROUTE_POINT action on empty route', () => {
         const name = 'My point';
         const latitude = 30.0;
         const longitude = 45.0;
-        expect(reducer(undefined, {
+        const state = reducer(undefined, {
             type: ADD_ROUTE_POINT,
             name,
             latitude,
             longitude
-        })).toEqual(fromJS({
-            points: [
-                { id: 1, name, latitude, longitude }
-            ],
-            error: '',
-            maxPointId: 1
-        }));
+        });
+        validatePoints(state, [{ id: 1, name, latitude, longitude }]);
+        validateError(state, false);
+        validateMaxPointId(state, 1);
+    });
+
+    it('handle ADD_ROUTE_POINT action with empty name', () => {
+        const name = '   ';
+        const latitude = 30.0;
+        const longitude = 45.0;
+        const state = reducer(undefined, {
+            type: ADD_ROUTE_POINT,
+            name,
+            latitude,
+            longitude
+        });
+        validatePoints(state, []);
+        validateError(state, true);
+        validateMaxPointId(state, undefined);
+    });
+
+    it('handle ADD_ROUTE_POINT action with same coordinates as last point of a route', () => {
+        const name = 'Duplicate point';
+        const lastPredefinedPoint = predefinedPoints[predefinedPoints.length - 1];
+        const { latitude, longitude } = lastPredefinedPoint;
+        const state = reducer(prepareState(predefinedPoints), {
+            type: ADD_ROUTE_POINT,
+            name,
+            latitude,
+            longitude
+        });
+        validatePoints(state, predefinedPoints);
+        validateError(state, true);
     });
 
     it('handle RELOCATE_ROUTE_POINT action', () => {
@@ -58,18 +96,28 @@ describe('route reducer', () => {
                 longitude
             }) : point;
         });
-        expect(reducer(fromJS({
-            points,
-            error: ''
-        }), {
+        const state = reducer(prepareState(predefinedPoints), {
             type: RELOCATE_ROUTE_POINT,
             id,
             latitude,
             longitude
-        })).toEqual(fromJS({
-            points: expectedPoints,
-            error: ''
-        }));
+        });
+        validatePoints(state, expectedPoints);
+        validateError(state, false);
+    });
+
+    it('handle RELOCATE_ROUTE_POINT action with id of non-existing point', () => {
+        const id = 5;
+        const latitude = 30.0;
+        const longitude = 45.0;
+        const state = reducer(prepareState(predefinedPoints), {
+            type: RELOCATE_ROUTE_POINT,
+            id,
+            latitude,
+            longitude
+        });
+        validatePoints(state, predefinedPoints);
+        validateError(state, false);
     });
 
     it('handle MOVE_ROUTE_POINT action', () => {
@@ -78,31 +126,34 @@ describe('route reducer', () => {
         const expectedPoints = predefinedPoints.map(point => Object.assign({}, point));
         const [moved] = expectedPoints.splice(sourceIndex, 1);
         expectedPoints.splice(destinationIndex, 0, moved);
-        expect(reducer(fromJS({
-            points,
-            error: ''
-        }), {
+        const state = reducer(prepareState(predefinedPoints), {
             type: MOVE_ROUTE_POINT,
             sourceIndex,
             destinationIndex
-        })).toEqual(fromJS({
-            points: expectedPoints,
-            error: ''
-        }));
+        });
+        validatePoints(state, expectedPoints);
+        validateError(state, false);
+    });
+
+    it('handle MOVE_ROUTE_POINT action with equal source and destination positions', () => {
+        const index = 2;
+        const state = reducer(prepareState(predefinedPoints), {
+            type: MOVE_ROUTE_POINT,
+            sourceIndex: index,
+            destinationIndex: index
+        });
+        validatePoints(state, predefinedPoints);
+        validateError(state, false);
     });
 
     it('handle REMOVE_ROUTE_POINT action', () => {
         const id = 3;
         const expectedPoints = predefinedPoints.filter(point => point.id !== id);
-        expect(reducer(fromJS({
-            points,
-            error: ''
-        }), {
+        const state = reducer(prepareState(predefinedPoints), {
             type: REMOVE_ROUTE_POINT,
             id
-        })).toEqual(fromJS({
-            points: expectedPoints,
-            error: ''
-        }));
+        });
+        validatePoints(state, expectedPoints);
+        validateError(state, false);
     });
 });

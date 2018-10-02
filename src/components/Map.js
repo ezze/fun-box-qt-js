@@ -4,6 +4,10 @@ import ymaps from 'ymaps';
 
 import { mapControlMargin } from '../constants';
 
+function ymapsReady() {
+    return new Promise(resolve => ymaps.ready(resolve));
+}
+
 class Map extends Component {
     constructor(props) {
         super(props);
@@ -11,10 +15,11 @@ class Map extends Component {
         this.map = null;
         this.routePolyline = null;
         this.placemarks = [];
+        this.readyPromise = null;
     }
 
     componentDidMount() {
-        ymaps.ready(() => this.createMap());
+        this.readyPromise = ymapsReady().then(() => this.createMap());
     }
 
     componentDidUpdate(prevProps) {

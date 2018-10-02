@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getRoute = state => state.get('route');
+export const getRoute = state => state.get('route');
 
 export const getRoutePoints = createSelector(getRoute, state => state.get('points').toJS());
 export const getRoutePointsCount = createSelector(getRoute, state => state.get('points').size);

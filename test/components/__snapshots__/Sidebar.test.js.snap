@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sidebar component rendering 1`] = `
+<div
+  className="sidebar"
+>
+  <div
+    className="sidebar-header"
+  >
+    Маршрут
+  </div>
+  <div
+    className="sidebar-content"
+  >
+    <Connect(RouteForm) />
+    <Connect(RouteList) />
+  </div>
+</div>
+`;

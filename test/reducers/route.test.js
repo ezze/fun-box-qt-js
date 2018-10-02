@@ -57,6 +57,59 @@ describe('route reducer', () => {
         validateMaxPointId(state, 1);
     });
 
+    it('handle ADD_ROUTE_POINT action on non-empty route', () => {
+        const name = 'My point';
+        const latitude = 30.0;
+        const longitude = 45.0;
+        const state = reducer(prepareState(predefinedPoints), {
+            type: ADD_ROUTE_POINT,
+            name,
+            latitude,
+            longitude
+        });
+        validatePoints(state, predefinedPoints.concat({ id: 5, name, latitude, longitude }));
+        validateError(state, false);
+        validateMaxPointId(state, 5);
+    });
+
+    it('handle two consecutive ADD_ROUTE_POINT actions on empty route', () => {
+        const points = [
+            { name: 'My first point', latitude: 30.0, longitude: 45.0 },
+            { name: 'My second point', latitude: 42.0, longitude: 57.0 }
+        ];
+        const intermediateState = reducer(undefined, {
+            type: ADD_ROUTE_POINT,
+            name: points[0].name,
+            latitude: points[0].latitude,
+            longitude: points[0].longitude
+        });
+        const state = reducer(intermediateState, {
+            type: ADD_ROUTE_POINT,
+            name: points[1].name,
+            latitude: points[1].latitude,
+            longitude: points[1].longitude
+        });
+        validatePoints(state, points.map((point, index) => Object.assign({ id: index + 1}, point)));
+        validateError(state, false);
+        validateMaxPointId(state, 2);
+    });
+
+    it('handle ADD_ROUTE_POINT action on a route with changed points\' order', () => {
+        const name = 'My point';
+        const latitude = 30.0;
+        const longitude = 45.0;
+        const points = [predefinedPoints[0], predefinedPoints[3], predefinedPoints[2], predefinedPoints[1]];
+        const state = reducer(prepareState(points), {
+            type: ADD_ROUTE_POINT,
+            name,
+            latitude,
+            longitude
+        });
+        validatePoints(state, points.concat([{ id: 5, name, latitude, longitude }]));
+        validateError(state, false);
+        validateMaxPointId(state, 5);
+    });
+
     it('handle ADD_ROUTE_POINT action with empty name', () => {
         const name = '   ';
         const latitude = 30.0;
@@ -154,6 +207,16 @@ describe('route reducer', () => {
             id
         });
         validatePoints(state, expectedPoints);
+        validateError(state, false);
+    });
+
+    it('handle REMOVE_ROUTE_POINT with id of non-existing point', () => {
+        const id = 5;
+        const state = reducer(prepareState(predefinedPoints), {
+            type: REMOVE_ROUTE_POINT,
+            id
+        });
+        validatePoints(state, predefinedPoints);
         validateError(state, false);
     });
 });

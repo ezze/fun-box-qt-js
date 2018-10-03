@@ -151,9 +151,6 @@ class Map extends Component {
     destroyPlacemark(id) {
         const index = this.placemarks.findIndex(placemark => placemark.id === id);
         const placemark = this.placemarks[index];
-        if (!placemark) {
-            return;
-        }
         const { geoObject } = placemark;
         this.map.geoObjects.remove(geoObject);
         this.placemarks.splice(index, 1);

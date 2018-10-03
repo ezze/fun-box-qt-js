@@ -6,17 +6,14 @@ Enzyme.configure({ adapter: new Adapter() });
 
 import Map from '../../src/components/Map';
 
+import { predefinedPoints } from '../constants';
+
 function setup() {
     const props = {
         latitude: 30.0,
         longitude: 45.0,
         zoom: 9,
-        points: [
-            { id: 1, name: 'Yaroslavl', latitude: 57.6261, longitude: 39.8845 },
-            { id: 2, name: 'Tver', latitude: 56.8587, longitude: 35.9176 },
-            { id: 3, name: 'Moscow', latitude: 55.7558, longitude: 37.6173 },
-            { id: 4, name: 'Sochi', latitude: 43.6028, longitude: 39.7342 }
-        ],
+        points: predefinedPoints,
         setCenter: jest.fn(),
         setZoom: jest.fn(),
         relocatePoint: jest.fn()
@@ -37,10 +34,8 @@ function setup() {
 describe('map component', () => {
     it('render and initialize map', done => {
         const { wrapper, props, mapComponent, readyPromise } = setup();
-
         const mapElement = wrapper.find('div').first();
         expect(mapElement.hasClass('map')).toBeTruthy();
-
         readyPromise.then(() => {
             const { map } = mapComponent;
             expect(map).toBeTruthy();
@@ -58,7 +53,6 @@ describe('map component', () => {
 
     it('handle actionend event of the map', done => {
         const { props, mapComponent, readyPromise } = setup();
-
         readyPromise.then(() => {
             const { map } = mapComponent;
             const latitude = 32.0;
@@ -78,7 +72,6 @@ describe('map component', () => {
 
     it('handle update on point add', done => {
         const { wrapper, props, mapComponent, readyPromise } = setup();
-
         readyPromise.then(() => {
             const { map } = mapComponent;
             mapComponent.routePolyline.geometry.setCoordinates.mockClear();
@@ -95,7 +88,6 @@ describe('map component', () => {
 
     it('handle update on point remove', done => {
         const { wrapper, props, mapComponent, readyPromise } = setup();
-
         readyPromise.then(() => {
             const { map } = mapComponent;
             mapComponent.routePolyline.geometry.setCoordinates.mockClear();
@@ -111,9 +103,35 @@ describe('map component', () => {
         });
     });
 
+    it('handle drag event of the placemark', done => {
+        const { wrapper, props, mapComponent, readyPromise } = setup();
+        readyPromise.then(() => {
+            const { map } = mapComponent;
+            const dragId = 3;
+            const latitude = 30.0;
+            const longitude = 45.0;
+            const placemark = mapComponent.placemarks.find(placemark => placemark.id === dragId).geoObject;
+            placemark.geometry.getCoordinates.mockReturnValueOnce([latitude, longitude]);
+            placemark.events.trigger('drag');
+            expect(props.relocatePoint.mock.calls).toHaveLength(1);
+            expect(props.relocatePoint.mock.calls[0][0]).toEqual(dragId);
+            expect(props.relocatePoint.mock.calls[0][1]).toEqual(latitude);
+            expect(props.relocatePoint.mock.calls[0][2]).toEqual(longitude);
+            mapComponent.routePolyline.geometry.setCoordinates.mockClear();
+            map.geoObjects.remove.mockClear();
+            map.geoObjects.add.mockClear();
+            const points = props.points.map(point => {
+                return point.id === dragId ? Object.assign({}, point, { latitude, longitude }) : point;
+            });
+            wrapper.setProps({ points }, () => {
+                expect(mapComponent.routePolyline.geometry.setCoordinates.mock.calls).toHaveLength(1);
+                done();
+            });
+        });
+    });
+
     it('destroy map', done => {
         const { props, mapComponent, readyPromise } = setup();
-
         readyPromise.then(() => {
             const { map } = mapComponent;
             mapComponent.componentWillUnmount();

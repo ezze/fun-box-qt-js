@@ -8,6 +8,7 @@ import {
 } from '../../src/constants';
 
 import reducer from '../../src/reducers/route';
+import { predefinedPoints } from '../constants';
 
 function prepareState(points = []) {
     return fromJS({ points, error: '' });
@@ -29,13 +30,6 @@ function validateError(state, hasError = false) {
 function validateMaxPointId(state, maxPointId) {
     expect(state.get('maxPointId')).toEqual(maxPointId);
 }
-
-const predefinedPoints = [
-    { id: 1, name: 'Yaroslavl', latitude: 57.6261, longitude: 39.8845 },
-    { id: 2, name: 'Tver', latitude: 56.8587, longitude: 35.9176 },
-    { id: 3, name: 'Moscow', latitude: 55.7558, longitude: 37.6173 },
-    { id: 4, name: 'Sochi', latitude: 43.6028, longitude: 39.7342 }
-];
 
 describe('route reducer', () => {
     it('return initial state', () => {

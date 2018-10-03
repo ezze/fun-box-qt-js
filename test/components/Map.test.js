@@ -103,6 +103,22 @@ describe('map component', () => {
         });
     });
 
+    it('handle update when points are not changed', done => {
+        const { wrapper, mapComponent, readyPromise } = setup();
+        readyPromise.then(() => {
+            const { map } = mapComponent;
+            mapComponent.routePolyline.geometry.setCoordinates.mockClear();
+            map.geoObjects.add.mockClear();
+            map.geoObjects.remove.mockClear();
+            wrapper.setProps({ zoom: 5 }, () => {
+                expect(mapComponent.routePolyline.geometry.setCoordinates.mock.calls).toHaveLength(0);
+                expect(map.geoObjects.add.mock.calls).toHaveLength(0);
+                expect(map.geoObjects.remove.mock.calls).toHaveLength(0);
+                done();
+            });
+        });
+    });
+
     it('handle drag event of the placemark', done => {
         const { wrapper, props, mapComponent, readyPromise } = setup();
         readyPromise.then(() => {

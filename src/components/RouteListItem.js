@@ -30,8 +30,8 @@ class RouteListItem extends PureComponent {
                             <div>
                                 <div className="route-list-item-name">{name}</div>
                                 <div className="route-list-item-coordinates">
-                                    {formatLatitude(latitude, { degrees: true })}&nbsp;
-                                    {formatLongitude(longitude, { degrees: true })}
+                                    <span>{formatLatitude(latitude, { degrees: true })}</span>&nbsp;
+                                    <span>{formatLongitude(longitude, { degrees: true })}</span>
                                 </div>
                             </div>
                             <div>

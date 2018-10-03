@@ -1,12 +1,12 @@
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
+import enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-
-Enzyme.configure({ adapter: new Adapter() });
 
 import Map from '../../src/components/Map';
 
 import { predefinedPoints } from '../constants';
+
+enzyme.configure({ adapter: new Adapter() });
 
 function setup() {
     const props = {

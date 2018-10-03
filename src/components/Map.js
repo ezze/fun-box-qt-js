@@ -118,6 +118,12 @@ class Map extends Component {
     }
 
     destroyRoute() {
+        const { points } = this.props;
+        for (let i = 0; i < points.length; i++) {
+            const point = points[i];
+            this.destroyPlacemark(point.id);
+        }
+
         this.map.geoObjects.remove(this.routePolyline);
         this.routePolyline = null;
     }
@@ -143,12 +149,14 @@ class Map extends Component {
     }
 
     destroyPlacemark(id) {
-        const placemark = this.placemarks.find(placemark => placemark.id === id);
+        const index = this.placemarks.findIndex(placemark => placemark.id === id);
+        const placemark = this.placemarks[index];
         if (!placemark) {
             return;
         }
         const { geoObject } = placemark;
         this.map.geoObjects.remove(geoObject);
+        this.placemarks.splice(index, 1);
     }
 
     render() {

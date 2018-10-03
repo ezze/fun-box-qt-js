@@ -1,25 +1,19 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { persistStore, autoRehydrate } from 'redux-persist-immutable';
 
-import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
+import { getLoggerMiddleware } from './debug';
 import { routeTransform } from './stateTransform';
 import reducer from './reducers';
 
 let store = null;
-let storePersistor = null;
 
-export function getStore() {
-    if (store === null) {
+export async function getStore(recreate = false) {
+    if (store === null || recreate) {
         const middlewares = [thunkMiddleware];
-
         if (NODE_ENV === 'development') {
-            const loggerMiddleware = createLogger({
-                stateTransformer: state => state.toJS(),
-                collapsed: (getState, action, logEntry) => !logEntry.error
-            });
-            middlewares.push(loggerMiddleware);
+            middlewares.push(getLoggerMiddleware());
         }
 
         store = createStore(
@@ -28,19 +22,12 @@ export function getStore() {
             compose(applyMiddleware.apply(undefined, middlewares), autoRehydrate())
         );
 
-        return new Promise(resolve => {
-            storePersistor = persistStore(store, { keyPrefix: 'app ', transforms: [routeTransform] }, () => {
+        await new Promise(resolve => {
+            persistStore(store, { keyPrefix: 'app ', transforms: [routeTransform] }, () => {
                 resolve(store);
             });
         });
     }
 
     return Promise.resolve(store);
-}
-
-export async function getStorePersistor() {
-    if (storePersistor === null) {
-        await getStore();
-    }
-    return Promise.resolve(storePersistor);
 }

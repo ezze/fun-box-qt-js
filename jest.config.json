@@ -3,6 +3,7 @@
   "collectCoverageFrom": [
     "src/**/*.js",
     "!src/index.js",
+    "!src/debug.js",
     "!src/components/containers/**/*.js"
   ],
   "coverageDirectory": "coverage"

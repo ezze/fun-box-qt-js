@@ -16,19 +16,11 @@ import {
     addRoutePoint
 } from '../../actions/route';
 
-const mapStateToProps = state => {
-    return {
-        latitude: getMapLatitude(state),
-        longitude: getMapLongitude(state),
-        pointsCount: getRoutePointsCount(state),
-        error: getRouteError(state)
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        addPoint: (name, latitude, longitude) => dispatch(addRoutePoint(name, latitude, longitude))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RouteForm);
+export default connect(state => ({
+    latitude: getMapLatitude(state),
+    longitude: getMapLongitude(state),
+    pointsCount: getRoutePointsCount(state),
+    error: getRouteError(state)
+}), {
+    addPoint: addRoutePoint
+})(RouteForm);

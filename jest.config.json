@@ -1,7 +1,9 @@
 {
   "collectCoverage": true,
   "collectCoverageFrom": [
-    "src/**/*.{js,jsx}"
+    "src/**/*.js",
+    "!src/index.js",
+    "!src/components/containers/**/*.js"
   ],
   "coverageDirectory": "coverage"
 }

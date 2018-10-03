@@ -21,21 +21,13 @@ import {
     relocateRoutePoint
 } from '../../actions/route';
 
-const mapStateToProps = state => {
-    return {
-        latitude: getMapLatitude(state),
-        longitude: getMapLongitude(state),
-        zoom: getMapZoom(state),
-        points: getRoutePoints(state)
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        setCenter: (latitude, longitude) => dispatch(setMapCenter(latitude, longitude)),
-        setZoom: zoom => dispatch(setMapZoom(zoom)),
-        relocatePoint: (id, latitude, longitude) => dispatch(relocateRoutePoint(id, latitude, longitude))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Map);
+export default connect(state => ({
+    latitude: getMapLatitude(state),
+    longitude: getMapLongitude(state),
+    zoom: getMapZoom(state),
+    points: getRoutePoints(state)
+}), {
+    setCenter: setMapCenter,
+    setZoom: setMapZoom,
+    relocatePoint: relocateRoutePoint
+})(Map);

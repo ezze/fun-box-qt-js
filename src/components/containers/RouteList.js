@@ -10,16 +10,8 @@ import {
     removeRoutePoint
 } from '../../actions/route';
 
-const mapStateToProps = state => {
-    return {
-        points: getRoutePoints(state)
-    };
-};
-
-const mapDispatchToProps = dispatch => {
-    return {
-        removePoint: id => dispatch(removeRoutePoint(id))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RouteList);
+export default connect(state => ({
+    points: getRoutePoints(state)
+}), {
+    removePoint: removeRoutePoint
+})(RouteList);

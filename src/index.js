@@ -18,6 +18,6 @@ document.addEventListener('DOMContentLoaded', async() => {
                 <App />
             </DragDropContext>
         </Provider>,
-        document.querySelector('#root')
+        document.getElementById('root')
     );
 });

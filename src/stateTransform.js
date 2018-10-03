@@ -1,12 +1,12 @@
 import { createTransform } from 'redux-persist';
 
-function routeInbound(state) {
+export function routeInbound(state) {
     return state.withMutations(state => {
         state.delete('maxPointId');
     });
 }
 
-function routeOutbound(state) {
+export function routeOutbound(state) {
     return state.withMutations(state => {
         state.delete('maxPointId');
     });

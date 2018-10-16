@@ -10,7 +10,7 @@ const travis = !!process.env.TRAVIS;
 const headless = travis || !!process.env.HEADLESS;
 const port = process.env.PORT || 6006;
 
-const outputDirectoryPath = path.resolve(__dirname, 'output');
+const screenshotDirectoryPath = path.resolve(__dirname, 'screenshots');
 const timeout = 30000;
 const typeOptions = { delay: 50 };
 
@@ -24,8 +24,8 @@ describe('e2e', () => {
             options.args = ['--no-sandbox'];
         }
         browser = await puppeteer.launch(options);
-        rimraf.sync(outputDirectoryPath);
-        mkdirp.sync(outputDirectoryPath);
+        rimraf.sync(screenshotDirectoryPath);
+        mkdirp.sync(screenshotDirectoryPath);
         return Promise.resolve();
     });
 
@@ -55,7 +55,7 @@ describe('e2e', () => {
 
     const makeScreenshot = async name => {
         await delay();
-        return page.screenshot({ path: path.resolve(outputDirectoryPath, `${name}.png`) });
+        return page.screenshot({ path: path.resolve(screenshotDirectoryPath, `${name}.png`) });
     };
 
     const addPoint = name => {

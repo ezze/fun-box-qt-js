@@ -45,7 +45,6 @@ describe('create drag & drop dispatcher', () => {
     });
 
     it('moveRoutePoint action is dispatched on drag end', () => {
-
         dispatcher.onDragEnd({
             source: {
                 droppableId: DROPPABLE_ROUTE_LIST,

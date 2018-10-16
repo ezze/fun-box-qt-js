@@ -30,12 +30,10 @@ function setup() {
             </Droppable>
         </DragDropContext>
     );
-    const routeListItemComponent = wrapper.instance();
 
     return {
         wrapper,
-        props,
-        routeListItemComponent
+        props
     };
 }
 

@@ -23,12 +23,10 @@ function setup() {
             <RouteList {...props} />
         </DragDropContext>
     );
-    const routeListComponent = wrapper.instance();
 
     return {
         wrapper,
-        props,
-        routeListComponent
+        props
     };
 }
 

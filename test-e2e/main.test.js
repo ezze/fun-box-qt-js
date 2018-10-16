@@ -116,7 +116,7 @@ describe('e2e', () => {
         return Promise.resolve();
     };
 
-    it('e2e', async() => {
+    it('main', async() => {
         await page.goto(`http://localhost:${port}`, { waitUntil: 'networkidle2' });
         await makeScreenshot('startup');
 

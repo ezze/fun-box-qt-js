@@ -14,7 +14,7 @@ const screenshotDirectoryPath = path.resolve(__dirname, 'screenshots');
 const timeout = 30000;
 const typeOptions = { delay: 50 };
 
-describe('e2e', () => {
+describe('main', () => {
     let server, browser, page;
 
     beforeAll(async() => {

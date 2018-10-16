@@ -16,7 +16,9 @@ install:
 before_script:
   - yarn lint
   - yarn lint:test
+  - yarn lint:test:e2e
   - yarn test:coverage
+  - TRAVIS=travis yarn test:e2e
 script:
   - yarn dist
 after_success:

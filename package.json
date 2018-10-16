@@ -11,6 +11,7 @@
     "wds:dev": "webpack-dev-server --mode=development --progress",
     "lint": "eslint src",
     "lint:test": "eslint test",
+    "lint:test:e2e": "eslint test-e2e",
     "test": "jest --config jest.config.js",
     "test:coverage": "cross-env COVERAGE=coverage jest --config jest.config.js",
     "test:e2e": "cross-env E2E=e2e jest --config jest.config.js",

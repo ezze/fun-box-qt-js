@@ -3,7 +3,8 @@ import puppeteer from 'puppeteer';
 import rimraf from 'rimraf';
 import mkdirp from 'mkdirp';
 
-const headless = process.env.HEADLESS || false;
+const travis = !!process.env.TRAVIS;
+const headless = travis || !!process.env.HEADLESS;
 const port = process.env.PORT || 6006;
 
 const outputDirectoryPath = path.resolve(__dirname, 'output');
@@ -14,7 +15,11 @@ describe('e2e', () => {
     let browser, page;
 
     beforeAll(async() => {
-        browser = await puppeteer.launch({ headless });
+        const options = { headless };
+        if (travis) {
+            options.args = ['--no-sandbox'];
+        }
+        browser = await puppeteer.launch(options);
         rimraf.sync(outputDirectoryPath);
         mkdirp.sync(outputDirectoryPath);
         return Promise.resolve();
@@ -74,7 +79,7 @@ describe('e2e', () => {
         const routeListItems = await page.$$('.route-list-item');
         expect(await routeListItems[index].$eval('.route-list-item-name', el => el.innerHTML)).toEqual(expectedName);
         return Promise.resolve();
-    }
+    };
 
     it('e2e', async() => {
         await page.goto(`http://localhost:${port}`, { waitUntil: 'networkidle2' });
@@ -83,19 +88,19 @@ describe('e2e', () => {
         await addPoint('Point 1');
         await validateListItemsCount(1);
         await validateListItemName(0, 'Point 1');
-        await makeScreenshot('point1');
+        await makeScreenshot('add-point1');
 
         await dragMap(0.25, 0.25, 0.4, 0.4);
         await addPoint('Point 2');
         await validateListItemsCount(2);
         await validateListItemName(1, 'Point 2');
-        await makeScreenshot('point2');
+        await makeScreenshot('add-point2');
 
         await dragMap(0.7, 0.6, 0.4, 0.5);
         await addPoint('Point 3');
         await validateListItemsCount(3);
         await validateListItemName(2, 'Point 3');
-        await makeScreenshot('point3');
+        await makeScreenshot('add-point3');
 
         return Promise.resolve();
     }, timeout);

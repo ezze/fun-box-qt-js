@@ -18,7 +18,16 @@ describe('main', () => {
     let server, browser, page;
 
     beforeAll(async() => {
-        server = http.createServer(app.callback()).listen(port);
+        server = http.createServer(app.callback())
+            .on('error', error => {
+                if (error.message.indexOf('EADDRINUSE') >= 0) {
+                    console.warn(`Port ${port} is busy, probably http server is already started.`);
+                }
+                else {
+                    console.log(error)
+                }
+            })
+            .listen(port);
         const options = { headless };
         if (travis) {
             options.args = ['--no-sandbox'];
@@ -49,10 +58,6 @@ describe('main', () => {
         return Promise.resolve();
     });
 
-    function closeServer(server) {
-        return new Promise(resolve => server.close(resolve));
-    }
-
     const makeScreenshot = async name => {
         await delay();
         return page.screenshot({ path: path.resolve(screenshotDirectoryPath, `${name}.png`) });
@@ -66,6 +71,11 @@ describe('main', () => {
         const routeListItems = await page.$$('.route-list-item');
         (await routeListItems[index].$('.route-list-item-remove')).click();
         return Promise.resolve();
+    };
+
+    const getPointCoordinatesText = async index => {
+        const routeListItems = await page.$$('.route-list-item');
+        return routeListItems[index].$eval('.route-list-item-coordinates', el => el.innerHTML);
     };
 
     const dragMap = async(startX, startY, endX, endY) => {
@@ -138,7 +148,7 @@ describe('main', () => {
         await validateListItemName(2, 'Point 3');
 
         await dragListItem(2, 0);
-        await makeScreenshot('drag-list-item');
+        await makeScreenshot('move-point');
         await validateListItemName(0, 'Point 3');
         await validateListItemName(1, 'Point 1');
         await validateListItemName(2, 'Point 2');
@@ -149,9 +159,18 @@ describe('main', () => {
         await validateListItemName(0, 'Point 3');
         await validateListItemName(1, 'Point 2');
 
+        const pointCoordinatesText = await getPointCoordinatesText(0);
+        await dragMap(0.5, 0.5, 0.7, 0.3);
+        expect(await getPointCoordinatesText(0)).not.toEqual(pointCoordinatesText);
+        await makeScreenshot('relocate-point');
+
         return Promise.resolve();
     }, timeout);
 });
+
+function closeServer(server) {
+    return new Promise(resolve => server.close(resolve));
+}
 
 function delay(ms = 500) {
     return new Promise(resolve => setTimeout(resolve, ms));

@@ -28,7 +28,7 @@ describe('route selectors', () => {
   });
 
   it('get route points', () => {
-    expect(getRoutePoints(state)).toEqual(predefined.route.points);
+    expect(getRoutePoints(state).toJS()).toEqual(predefined.route.points);
   });
 
   it('get route points\' count', () => {

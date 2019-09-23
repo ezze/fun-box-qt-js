@@ -43,25 +43,25 @@
         npm run dist
         ```
 
-### Запуск
+## Запуск
 
 Запустить веб-сервер:
 
-    - Yarn:
+- Yarn:
     
-        ```bash
-        yarn start
-        ```
+    ```bash
+    yarn start
+    ```
         
-    - NPM:
+- NPM:
     
-        ```bash
-        npm start
-        ```
+    ```bash
+    npm start
+    ```
         
 и открыть в браузере страницу `http://localhost:6006`.
 
-### Тестирование
+## Тестирование
     
 Для запуска unit- и snapshot-тестов предназначен скрипт `test`, а для вычисления процента покрытия кода тестами —
 `test:coverage`:

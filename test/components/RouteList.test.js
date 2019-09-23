@@ -13,40 +13,40 @@ enzyme.configure({ adapter: new Adapter() });
 function onDragEnd() {}
 
 function setup() {
-    const props = {
-        points: predefinedPoints,
-        removePoint: jest.fn()
-    };
+  const props = {
+    points: predefinedPoints,
+    removePoint: jest.fn()
+  };
 
-    const wrapper = mount(
-        <DragDropContext onDragEnd={onDragEnd}>
-            <RouteList {...props} />
-        </DragDropContext>
-    );
+  const wrapper = mount(
+    <DragDropContext onDragEnd={onDragEnd}>
+      <RouteList {...props} />
+    </DragDropContext>
+  );
 
-    return {
-        wrapper,
-        props
-    };
+  return {
+    wrapper,
+    props
+  };
 }
 
 describe('route list component', () => {
-    it('render', () => {
-        const { wrapper, props } = setup();
-        const { points, removePoint } = props;
-        expect(wrapper.find('ul').first().hasClass('route-list')).toBeTruthy();
-        const routeListItemComponents = wrapper.find(RouteListItem);
-        expect(routeListItemComponents).toHaveLength(points.length);
-        for (let i = 0; i < points.length; i++) {
-            const point = points[i];
-            const routeListItemComponent = routeListItemComponents.at(i);
-            for (const name in point) {
-                if (!point.hasOwnProperty(name)) {
-                    continue;
-                }
-                expect(routeListItemComponent.props()[name]).toEqual(point[name]);
-            }
-            expect(routeListItemComponent.props().removePoint).toEqual(removePoint);
+  it('render', () => {
+    const { wrapper, props } = setup();
+    const { points, removePoint } = props;
+    expect(wrapper.find('ul').first().hasClass('route-list')).toBeTruthy();
+    const routeListItemComponents = wrapper.find(RouteListItem);
+    expect(routeListItemComponents).toHaveLength(points.length);
+    for (let i = 0; i < points.length; i++) {
+      const point = points[i];
+      const routeListItemComponent = routeListItemComponents.at(i);
+      for (const name in point) {
+        if (!point.hasOwnProperty(name)) {
+          continue;
         }
-    });
+        expect(routeListItemComponent.props()[name]).toEqual(point[name]);
+      }
+      expect(routeListItemComponent.props().removePoint).toEqual(removePoint);
+    }
+  });
 });

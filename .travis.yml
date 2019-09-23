@@ -31,3 +31,4 @@ deploy:
   keep_history: true
   on:
     branch: master
+    node_js: "12"

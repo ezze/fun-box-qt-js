@@ -35,7 +35,6 @@ describe('main', () => {
     browser = await puppeteer.launch(options);
     rimraf.sync(screenshotDirectoryPath);
     mkdirp.sync(screenshotDirectoryPath);
-    return Promise.resolve();
   });
 
   beforeEach(async() => {
@@ -44,18 +43,15 @@ describe('main', () => {
       width: 1920,
       height: 1080
     });
-    return Promise.resolve();
   });
 
   afterEach(async() => {
     await page.close();
-    return Promise.resolve();
   });
 
   afterAll(async() => {
     await browser.close();
     await closeServer(server);
-    return Promise.resolve();
   });
 
   const makeScreenshot = async name => {
@@ -70,7 +66,6 @@ describe('main', () => {
   const removePoint = async index => {
     const routeListItems = await page.$$('.route-list-item');
     (await routeListItems[index].$('.route-list-item-remove')).click();
-    return Promise.resolve();
   };
 
   const getPointCoordinatesText = async index => {
@@ -90,7 +85,6 @@ describe('main', () => {
       Math.round(mapBox.x + mapBox.width * endX),
       Math.round(mapBox.y + mapBox.height * endY));
     await page.mouse.up();
-    return Promise.resolve();
   };
 
   const dragListItem = async(startIndex, endIndex) => {
@@ -111,19 +105,16 @@ describe('main', () => {
     );
     await page.mouse.up();
     await delay();
-    return Promise.resolve();
   };
 
   const validateListItemsCount = async expectedCount => {
     const routeListItems = await page.$$('.route-list-item');
     expect(routeListItems).toHaveLength(expectedCount);
-    return Promise.resolve();
   };
 
   const validateListItemName = async(index, expectedName) => {
     const routeListItems = await page.$$('.route-list-item');
     expect(await routeListItems[index].$eval('.route-list-item-name', el => el.innerHTML)).toEqual(expectedName);
-    return Promise.resolve();
   };
 
   it('main', async() => {
@@ -163,8 +154,6 @@ describe('main', () => {
     await dragMap(0.5, 0.5, 0.7, 0.3);
     expect(await getPointCoordinatesText(0)).not.toEqual(pointCoordinatesText);
     await makeScreenshot('relocate-point');
-
-    return Promise.resolve();
   }, timeout);
 });
 

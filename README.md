@@ -5,7 +5,9 @@
 
 Тестовое задание для [Fun-Box](https://fun-box.ru).
 
-## Установка и запуск
+Онлайн-демонстрация доступна [здесь](https://ezze.github.io/fun-box-qt-js/).
+
+## Сборка
 
 1. Клонировать репозиторий:
 
@@ -41,7 +43,9 @@
         npm run dist
         ```
 
-4. Запустить веб-сервер:
+### Запуск
+
+Запустить веб-сервер:
 
     - Yarn:
     
@@ -55,40 +59,41 @@
         npm start
         ```
         
-    и открыть в браузере страницу `http://localhost:6006`.
-    
- 5. Для запуска unit- и snapshot-тестов предназначен скрипт `test`, а для вычисления процента покрытия кода тестами —
- `test:coverage`:
- 
-    - Yarn:
-    
-        ```bash
-        yarn test
-        yarn test:coverage  
-        ```
-        
-    - NPM:
-    
-        ```bash
-        npm test
-        npm run test:coverage
-        ```
+и открыть в браузере страницу `http://localhost:6006`.
 
-    Тесты end-to-end запускаются скриптом `test:e2e`:
+### Тестирование
     
-    - Yarn:
+Для запуска unit- и snapshot-тестов предназначен скрипт `test`, а для вычисления процента покрытия кода тестами —
+`test:coverage`:
+ 
+- Yarn:
     
-        ```bash
-        yarn test:e2e
-        ``` 
+    ```bash
+    yarn test
+    yarn test:coverage  
+    ```
         
-    - NPM:
+- NPM:
     
-        ```bash
-        npm run test:e2e
-        ```
+    ```bash
+    npm test
+    npm run test:coverage
+    ```
+
+Тесты end-to-end запускаются скриптом `test:e2e`:
+    
+- Yarn:
+    
+    ```bash
+    yarn test:e2e
+    ``` 
         
-    Перед запуском тестов end-to-end необходимо собрать проект для среды окружения `production` (скрипт `dist`) или
-    `development` (скрипт `dist:dev`). Скриншоты, полученные в результате прогона тестов, помещаются в директории
-    `test-e2e/screenshots`.
-    
+- NPM:
+   
+    ```bash
+    npm run test:e2e
+    ```
+        
+Перед запуском тестов end-to-end необходимо собрать проект для среды окружения `production` (скрипт `dist`) или
+`development` (скрипт `dist:dev`). Скриншоты, полученные в результате прогона тестов, помещаются в директории
+`test-e2e/screenshots`.

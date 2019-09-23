@@ -4,7 +4,7 @@ import path from 'path';
 
 import HtmlPlugin from 'html-webpack-plugin';
 import htmlTemplate from 'html-webpack-template';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
 import packageJson from './package';
 
@@ -13,31 +13,6 @@ const PORT = process.env.PORT ? process.env.PORT : 6006;
 const { argv } = yargs;
 const { mode } = argv;
 
-const sassLoader = [{
-  loader: 'css-loader',
-  options: {
-    minimize: mode === 'production',
-    discardComments: {
-      removeAll: true
-    }
-  }
-}, {
-  loader: 'postcss-loader',
-  options: {
-    sourceMap: 'inline'
-  }
-}, {
-  loader: 'resolve-url-loader',
-  options: {
-    keepQuery: true
-  }
-}, {
-  loader: 'sass-loader',
-  options: {
-    sourceMap: true
-  }
-}];
-
 export default {
   devServer: {
     contentBase: path.resolve(__dirname, 'dist'),
@@ -45,7 +20,7 @@ export default {
   },
   context: path.resolve(__dirname, 'src'),
   entry: {
-    index: ['@babel/polyfill', './index.js']
+    index: ['core-js/stable', 'regenerator-runtime/runtime', './index.js']
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -62,11 +37,13 @@ export default {
       }
     }, {
       test: /\.(sass|scss)$/,
-      use: ExtractTextPlugin.extract({
-        use: sassLoader,
-        fallback: 'style-loader',
-        publicPath: '../'
-      }),
+      use: [
+        { loader: MiniCssExtractPlugin.loader, options: { publicPath: '../' } },
+        'css-loader',
+        { loader: 'postcss-loader', options: { sourceMap: 'inline' } },
+        { loader: 'resolve-url-loader', options: { keepQuery: true } },
+        { loader: 'sass-loader', options: { sourceMap: true } }
+      ],
       include: [
         path.resolve(__dirname, 'src')
       ]
@@ -99,6 +76,9 @@ export default {
   externals: {
     ymaps: 'ymaps'
   },
+  watchOptions: {
+    ignored: []
+  },
   optimization: {
     splitChunks: {
       cacheGroups: {
@@ -126,9 +106,9 @@ export default {
     new webpack.ProvidePlugin({
       Promise: 'bluebird'
     }),
-    new ExtractTextPlugin({
-      filename: 'css/[name].' + (mode === 'development' ? '' : '[chunkhash:6].') + 'css',
-      allChunks: true
+    new MiniCssExtractPlugin({
+      filename: `css/${mode === 'development' ? '[name].css' : '[name].[hash:6].css'}`,
+      chunkFilename: `css/${mode === 'development' ? '[name].css' : '[name].[hash:6].css'}`
     }),
     new HtmlPlugin({
       filename: path.resolve(__dirname, 'dist/index.html'),

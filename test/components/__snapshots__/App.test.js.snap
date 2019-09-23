@@ -5,6 +5,6 @@ exports[`application component rendering 1`] = `
   className="app"
 >
   <Sidebar />
-  <Connect(Map) />
+  <Memo(Connect(withImmutablePropsToJS(Map))) />
 </div>
 `;

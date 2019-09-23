@@ -3,7 +3,9 @@ import { fromJS } from 'immutable';
 import {
   getRoute,
   getRoutePoints,
+  getRoutePointIds,
   getRoutePointsCount,
+  getRoutePointById,
   getRouteError
 } from '../../src/selectors/route';
 
@@ -31,8 +33,20 @@ describe('route selectors', () => {
     expect(getRoutePoints(state).toJS()).toEqual(predefined.route.points);
   });
 
+  it('get route point ids', () => {
+    expect(getRoutePointIds(state).toJS()).toEqual(predefined.route.points.map(point => point.id));
+  });
+
   it('get route points\' count', () => {
     expect(getRoutePointsCount(state)).toEqual(predefined.route.points.length);
+  });
+
+  it('get route point by id', () => {
+    expect(getRoutePointById(state)(2).toJS()).toEqual(predefined.route.points[1]);
+  });
+
+  it('get route point by non-existing id', () => {
+    expect(getRoutePointById(state)(7)).toEqual(null);
   });
 
   it('get route error', () => {

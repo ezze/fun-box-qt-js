@@ -12,8 +12,8 @@ exports[`sidebar component rendering 1`] = `
   <div
     className="sidebar-content"
   >
-    <Connect(RouteForm) />
-    <Connect(RouteList) />
+    <Memo(Connect(RouteForm)) />
+    <Memo(Connect(withImmutablePropsToJS(RouteList))) />
   </div>
 </div>
 `;

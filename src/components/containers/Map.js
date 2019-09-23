@@ -3,31 +3,31 @@ import { connect } from 'react-redux';
 import Map from '../Map';
 
 import {
-    getMapLatitude,
-    getMapLongitude,
-    getMapZoom
+  getMapLatitude,
+  getMapLongitude,
+  getMapZoom
 } from '../../selectors/map';
 
 import {
-    getRoutePoints
+  getRoutePoints
 } from '../../selectors/route';
 
 import {
-    setMapCenter,
-    setMapZoom
+  setMapCenter,
+  setMapZoom
 } from '../../actions/map';
 
 import {
-    relocateRoutePoint
+  relocateRoutePoint
 } from '../../actions/route';
 
 export default connect(state => ({
-    latitude: getMapLatitude(state),
-    longitude: getMapLongitude(state),
-    zoom: getMapZoom(state),
-    points: getRoutePoints(state)
+  latitude: getMapLatitude(state),
+  longitude: getMapLongitude(state),
+  zoom: getMapZoom(state),
+  points: getRoutePoints(state)
 }), {
-    setCenter: setMapCenter,
-    setZoom: setMapZoom,
-    relocatePoint: relocateRoutePoint
+  setCenter: setMapCenter,
+  setZoom: setMapZoom,
+  relocatePoint: relocateRoutePoint
 })(Map);

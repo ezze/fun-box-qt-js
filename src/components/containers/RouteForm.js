@@ -3,24 +3,24 @@ import { connect } from 'react-redux';
 import RouteForm from '../RouteForm';
 
 import {
-    getMapLatitude,
-    getMapLongitude
+  getMapLatitude,
+  getMapLongitude
 } from '../../selectors/map';
 
 import {
-    getRoutePointsCount,
-    getRouteError
+  getRoutePointsCount,
+  getRouteError
 } from '../../selectors/route';
 
 import {
-    addRoutePoint
+  addRoutePoint
 } from '../../actions/route';
 
 export default connect(state => ({
-    latitude: getMapLatitude(state),
-    longitude: getMapLongitude(state),
-    pointsCount: getRoutePointsCount(state),
-    error: getRouteError(state)
+  latitude: getMapLatitude(state),
+  longitude: getMapLongitude(state),
+  pointsCount: getRoutePointsCount(state),
+  error: getRouteError(state)
 }), {
-    addPoint: addRoutePoint
+  addPoint: addRoutePoint
 })(RouteForm);

@@ -3,15 +3,15 @@ import { connect } from 'react-redux';
 import RouteList from '../RouteList';
 
 import {
-    getRoutePoints
+  getRoutePoints
 } from '../../selectors/route';
 
 import {
-    removeRoutePoint
+  removeRoutePoint
 } from '../../actions/route';
 
 export default connect(state => ({
-    points: getRoutePoints(state)
+  points: getRoutePoints(state)
 }), {
-    removePoint: removeRoutePoint
+  removePoint: removeRoutePoint
 })(RouteList);

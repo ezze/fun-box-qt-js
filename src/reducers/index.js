@@ -4,8 +4,8 @@ import map from './map';
 import route from './route';
 
 export const reducerMap = ({
-    map,
-    route
+  map,
+  route
 });
 
 const reducer = combineReducers(reducerMap);

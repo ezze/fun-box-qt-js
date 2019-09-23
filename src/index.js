@@ -10,14 +10,14 @@ import createDragDropDispatcher from './createDragDropDispatcher';
 import App from './components/App';
 
 document.addEventListener('DOMContentLoaded', async() => {
-    const store = await getStore();
-    const dragDropDispatcher = createDragDropDispatcher(store);
-    render(
-        <Provider store={store}>
-            <DragDropContext onDragEnd={dragDropDispatcher.onDragEnd}>
-                <App />
-            </DragDropContext>
-        </Provider>,
-        document.getElementById('root')
-    );
+  const store = await getStore();
+  const dragDropDispatcher = createDragDropDispatcher(store);
+  render(
+    <Provider store={store}>
+      <DragDropContext onDragEnd={dragDropDispatcher.onDragEnd}>
+        <App />
+      </DragDropContext>
+    </Provider>,
+    document.getElementById('root')
+  );
 });

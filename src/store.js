@@ -10,24 +10,24 @@ import reducer from './reducers';
 let store = null;
 
 export async function getStore(recreate = false) {
-    if (store === null || recreate) {
-        const middlewares = [thunkMiddleware];
-        if (NODE_ENV === 'development') {
-            middlewares.push(getLoggerMiddleware());
-        }
-
-        store = createStore(
-            reducer,
-            undefined,
-            compose(applyMiddleware.apply(undefined, middlewares), autoRehydrate())
-        );
-
-        await new Promise(resolve => {
-            persistStore(store, { keyPrefix: 'app ', transforms: [routeTransform] }, () => {
-                resolve(store);
-            });
-        });
+  if (store === null || recreate) {
+    const middlewares = [thunkMiddleware];
+    if (NODE_ENV === 'development') {
+      middlewares.push(getLoggerMiddleware());
     }
 
-    return Promise.resolve(store);
+    store = createStore(
+      reducer,
+      undefined,
+      compose(applyMiddleware.apply(undefined, middlewares), autoRehydrate())
+    );
+
+    await new Promise(resolve => {
+      persistStore(store, { keyPrefix: 'app ', transforms: [routeTransform] }, () => {
+        resolve(store);
+      });
+    });
+  }
+
+  return Promise.resolve(store);
 }

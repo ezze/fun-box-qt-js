@@ -1,5 +1,5 @@
 import React from 'react';
-import enzyme, { mount } from 'enzyme';
+import enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { DragDropContext } from 'react-beautiful-dnd';
 
@@ -14,15 +14,16 @@ function onDragEnd() {}
 
 function setup() {
   const props = {
-    points: predefinedPoints,
-    removePoint: jest.fn()
+    pointIds: predefinedPoints.map(point => point.id)
   };
 
-  const wrapper = mount(
+  const wrapper = shallow(
     <DragDropContext onDragEnd={onDragEnd}>
       <RouteList {...props} />
     </DragDropContext>
   );
+
+  console.log(wrapper);
 
   return {
     wrapper,
@@ -33,20 +34,15 @@ function setup() {
 describe('route list component', () => {
   it('render', () => {
     const { wrapper, props } = setup();
-    const { points, removePoint } = props;
+    const { pointIds } = props;
+
     expect(wrapper.find('ul').first().hasClass('route-list')).toBeTruthy();
     const routeListItemComponents = wrapper.find(RouteListItem);
-    expect(routeListItemComponents).toHaveLength(points.length);
-    for (let i = 0; i < points.length; i++) {
-      const point = points[i];
+    expect(routeListItemComponents).toHaveLength(pointIds.length);
+    for (let i = 0; i < pointIds.length; i++) {
+      const id = pointIds[i];
       const routeListItemComponent = routeListItemComponents.at(i);
-      for (const name in point) {
-        if (!point.hasOwnProperty(name)) {
-          continue;
-        }
-        expect(routeListItemComponent.props()[name]).toEqual(point[name]);
-      }
-      expect(routeListItemComponent.props().removePoint).toEqual(removePoint);
+      expect(routeListItemComponent.props().id).toEqual(id);
     }
   });
 });

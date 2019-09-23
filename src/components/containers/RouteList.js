@@ -1,17 +1,12 @@
 import { connect } from 'react-redux';
+import withImmutablePropsToJS from 'with-immutable-props-to-js';
 
 import RouteList from '../RouteList';
 
 import {
-  getRoutePoints
+  getRoutePointIds
 } from '../../selectors/route';
 
-import {
-  removeRoutePoint
-} from '../../actions/route';
-
 export default connect(state => ({
-  points: getRoutePoints(state)
-}), {
-  removePoint: removeRoutePoint
-})(RouteList);
+  pointIds: getRoutePointIds(state)
+}))(withImmutablePropsToJS(RouteList));

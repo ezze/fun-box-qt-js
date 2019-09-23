@@ -11,7 +11,8 @@ class RouteListItem extends PureComponent {
   }
 
   render() {
-    const { index, id, name, latitude, longitude } = this.props;
+    const { id, index, point } = this.props;
+    const { name, latitude, longitude } = point;
     return (
       <Draggable draggableId={`draggable-route-list-item-${id}`} index={index}>
         {(provided, snapshot) => {
@@ -36,7 +37,7 @@ class RouteListItem extends PureComponent {
               </div>
               <div>
                 <span className="route-list-item-remove" onClick={this.onRemoveClick} title="Удалить">
-                                    &times;
+                  &times;
                 </span>
               </div>
             </li>
@@ -53,11 +54,13 @@ class RouteListItem extends PureComponent {
 }
 
 RouteListItem.propTypes = {
-  index: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  latitude: PropTypes.number.isRequired,
-  longitude: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  point: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired
+  }).isRequired,
   removePoint: PropTypes.func.isRequired
 };
 

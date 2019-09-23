@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import withImmutablePropsToJS from 'with-immutable-props-to-js';
 
 import Map from '../Map';
 
@@ -30,4 +31,4 @@ export default connect(state => ({
   setCenter: setMapCenter,
   setZoom: setMapZoom,
   relocatePoint: relocateRoutePoint
-})(Map);
+})(withImmutablePropsToJS(Map));

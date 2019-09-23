@@ -15,10 +15,14 @@ function onDragEnd() {}
 
 function setup() {
   const index = 0;
-  const props = Object.assign({
+  const predefinedPoint = predefinedPoints[index];
+  const { id, name, latitude, longitude } = predefinedPoint;
+  const props = {
     index,
+    id,
+    point: { name, latitude, longitude },
     removePoint: jest.fn()
-  }, predefinedPoints[index]);
+  };
   const wrapper = mount(
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId={DROPPABLE_ROUTE_LIST} direction="vertical">
@@ -40,7 +44,8 @@ function setup() {
 describe('route list item component', () => {
   it('render', () => {
     const { wrapper, props } = setup();
-    const { name, latitude, longitude } = props;
+    const { point } = props;
+    const { name, latitude, longitude } = point;
     const formattedLatitude = formatLatitude(latitude, { degrees: true });
     const formattedLongitude = formatLongitude(longitude, { degrees: true });
     expect(wrapper.find('li').hasClass('route-list-item')).toBeTruthy();

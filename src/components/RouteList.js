@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Droppable } from 'react-beautiful-dnd';
 
-import RouteListItem from './RouteListItem';
+import RouteListItem from './containers/RouteListItem';
 
 import { DROPPABLE_ROUTE_LIST } from '../constants';
 
 const RouteList = props => {
-  const { points, removePoint } = props;
+  const { pointIds } = props;
   return (
     <Droppable droppableId={DROPPABLE_ROUTE_LIST} direction="vertical">
       {(provided, snapshot) => {
@@ -18,8 +18,8 @@ const RouteList = props => {
         });
         return (
           <ul ref={provided.innerRef} {...provided.droppableProps} className={className}>
-            {points.map((point, i) => (
-              <RouteListItem key={i} index={i} {...point} removePoint={removePoint} />
+            {pointIds.map((id, i) => (
+              <RouteListItem key={id} id={id} index={i} />
             ))}
             {provided.placeholder}
           </ul>
@@ -30,8 +30,7 @@ const RouteList = props => {
 };
 
 RouteList.propTypes = {
-  points: PropTypes.array.isRequired,
-  removePoint: PropTypes.func.isRequired
+  pointIds: PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
 export default RouteList;

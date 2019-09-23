@@ -33,8 +33,8 @@ const reducer = (state = defaultValue, action) => {
       const lastPoint = points.get(-1, null);
       if (
         lastPoint !== null &&
-                lastPoint.get('latitude') === latitude &&
-                lastPoint.get('longitude') === longitude
+        lastPoint.get('latitude') === latitude &&
+        lastPoint.get('longitude') === longitude
       ) {
         return state.set(
           'error',
